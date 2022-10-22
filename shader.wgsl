@@ -1,4 +1,7 @@
-struct Matrix { size : vec2<f32>, numbers: array<f32> }
+struct Matrix { 
+    size : vec2<f32>, 
+    numbers: array<f32> 
+    }
 // Essas são as identificações do Array. Como todos estão dentro de um mesmo Grupo então são inicializados
 // com o decorador @group(0). Em seguida dentro do grupo cada Array recebeu uma posição de índice que deve 
 // ser indicada com o decorador @binding(<índice do Array no grupo>). Agora é o momento de intanciar a variável
@@ -6,7 +9,7 @@ struct Matrix { size : vec2<f32>, numbers: array<f32> }
 // segundo o referido no GPUBufferUsage e o slot-2 identifica a autorização de uso do buffer que pode ser:
 // read, read_write e storage, lembrando que do lado da GPU.
 
-@zgroup(0) @binding(0) var<storage, read> firstMatrix : Matrix;
+@group(0) @binding(0) var<storage, read> firstMatrix : Matrix;
 @group(0) @binding(1) var<storage, read> secondMatrix : Matrix;
 @group(0) @binding(2) var<storage, read_write> resultMatrix : Matrix;
 
@@ -32,7 +35,7 @@ fn main(@builtin(global_invocation_id) global_id : vec3<u32>) {
     for (var i = 0u; i < u32(firstMatrix.size.y); i = i + 1u) {
         let a = i + resultCell.x * u32(firstMatrix.size.y);
         let b = resultCell.y + i * u32(secondMatrix.size.y);
-        result = result + firstMatrix.numbers[a] * secondMatrix.numbers[b];
+        result = result + firstMatrix.numbers[a] * 2u;
     }
 
     let index = resultCell.y + resultCell.x * u32(secondMatrix.size.y);

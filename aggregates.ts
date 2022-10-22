@@ -66,10 +66,12 @@ export class Command {
     }
 
     end() {
-        this.#hasPipeline && this.#hasAnyBindGroup ? this.computation.endPass() : undefined;
-        this.binds.map((i: BufferBind) => {
-            this.encoder.copyBufferToBuffer(i.buffer1, i.offsets[0], i.buffer2, i.offsets[1], i.size)
-        })
+        if(this.#hasPipeline && this.#hasAnyBindGroup) {
+            this.computation
+            this.binds.map((i: BufferBind) => {
+                this.encoder.copyBufferToBuffer(i.buffer1, i.offsets[0], i.buffer2, i.offsets[1], i.size)
+            })
+        }
         return this.encoder.finish()
     }
 

@@ -68,5 +68,13 @@ const command =
         .group(bind, 0)
         .pipeline(pipeline)
         .size({x: Math.ceil(firstMatrix[0]/8), y: Math.ceil(secondMatrix[1]/8)})
-        .bindArrays(resultMatrixBuffer, gpuReadBuffer, Float32Array.BYTES_PER_ELEMENT * (2 + firstMatrix[0] * secondMatrix[1]))
+        .bindArrays(resultMatrixBuffer, gpuReadBuffer, Float32Array.BYTES_PER_ELEMENT * (2 + firstMatrix[0] * secondMatrix[1]),[0,0])
         .end();
+
+repository.push(command);
+adapter.run();
+
+await gpuReadBuffer.mapAsync(GPUMapMode.READ);
+const arrayBuffer = gpuReadBuffer.getMappedRange();
+console.log(new Float32Array(arrayBuffer));
+
